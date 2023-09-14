@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>苏大二附院卒中临床早期康复中心数据可视化</title>
+    <link href="../styles/common.css" rel="stylesheet">
+    <link href="../styles/bootstrap.min.css" rel="stylesheet">
+    <link href="../styles/bootstrap-table.css" rel="stylesheet">
+    <link href="../styles/pagination.css" rel="stylesheet">
+    <script src="../scripts/Plugin/jquery-3.3.1.min.js"></script>
+    <script src="../scripts/Plugin/echarts.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../scripts/Plugin/jquery.pagination.min.js"></script>
+    <script src="../scripts/common.js"></script>
+    <script src="../scripts/chronic.js"></script>
+</head>
+
+<body>
+    <!--顶部-->
+    <header class="header left">
+        <div class="left nav">
+            <ul>
+                <li><i class="nav_1"></i><a href="index.html">采集概况</a> </li>
+                <!-- <li><i class="nav_2"></i><a href="quota.html">指标分析</a> </li>
+                <li><i class="nav_3"></i><a href="trend.html">趋势分析</a> </li> -->
+                <li class="nav_active"><i class="nav_3"></i><a href="chronic.html">居家病人列表</a> </li>
+                <li><i class="nav_4"></i><a href="hospitalUsers.html">医院用户列表</a> </li>
+                <li><i class="nav_5"></i><a href="rehab.html">早康信息</a> </li>
+            </ul>
+        </div>
+        <div class="header_center left" style="position:relative">
+            <h2><strong>卒中临床早期康复中心大数据展示</strong></h2>
+
+        </div>
+        <div class="right nav text_right">
+            <ul>
+
+            </ul>
+        </div>
+
+    </header>
+    <!--内容部分-->
+    <div class="modal fade" id="recordsModal" tabindex="-1" role="dialog" aria-labelledby="recordsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="width:1000px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recordsModalLabel">查看记录</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 这里将插入 ECharts 图表 -->
+                    <div id="echartsBar" style="width: 100%; height: 400px;"></div>
+                </div>
+
+                <div class="modal-body">
+                    <!-- 这里将插入 ECharts 图表 -->
+                    <div id="chartPen" style="width: 100%; height: 400px;"></div>
+                </div>
+
+                <!-- 子柱状图容器 -->
+                <div id="subChartContainer" style="display: none;">
+                    <div id="subChart" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="con left" style="width: 98%;margin-left: 1%;margin-bottom: 25px;">
+
+        <input id="searchInput" type="text" placeholder="请输入姓名身份证"
+            style="width: 180px;height: 28px;border-radius: 3px;text-indent: 1em;border: 1px solid#4b8df8;color: #333333;" /><button
+            id="searchButton" class="btn btn-primary btn-sm" style="margin-left:20px"><span
+                class="glyphicon glyphicon-search"></span>查询</button>
+
+        <div class="div_any_child">
+            <div class="table_p" style="height: 96%;margin-top: 20px;">
+                <table id="userTable">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                            <th>证件号</th>
+                            <th>类别</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 用户数据将在这里动态添加 -->
+                    </tbody>
+                </table>
+                <!-- <table>
+                  <thead><tr>
+                      <th>序号</th>
+                      <th>姓名</th>
+                      <th>病症</th>
+                      <th>操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr><td>1</td><td>赵德广</td><td>高血压</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>2</td><td>刘秋屏</td><td>中风</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>3</td><td>冯颖</td><td>帕金森</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>4</td><td>郑永升</td><td>脑出血</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>5</td><td>张山</td><td>高血压</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>6</td><td>刘德强</td><td>中风</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>7</td><td>高超</td><td>脑梗死</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>8</td><td>沈佳欣</td><td>中风</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>9</td><td>黄石</td><td>脑出血</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  <tr><td>10</td><td>吴索为</td><td>脑梗死</td><td><button class="btn btn-primary btn-sm">查看</button></td></tr>
+                  </tbody>
+              </table> -->
+            </div>
+            <div class="box">
+                <div id="pagination" class="page fl"></div>
+            </div>
+        </div>
+
+
+    </div>
+    </div>
+</body>
+
+</html>

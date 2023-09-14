@@ -1,0 +1,833 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>苏大二附院卒中临床早期康复中心数据可视化</title>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <link href="../styles/common.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/comon0.css">
+</head>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var html = $(".wrap ul").html()
+        $(".wrap ul").append(html)
+        var ls = $(".wrap li").length / 2 + 1
+        i = 0
+        ref = setInterval(function () {
+            i++
+            if (i == ls) {
+                i = 1
+                $(".wrap ul").css({ marginTop: 0 })
+                $(".wrap ul").animate({ marginTop: -'.52' * i + 'rem' }, 1000)
+            }
+            $(".wrap ul").animate({ marginTop: -'.52' * i + 'rem' }, 1000)
+
+
+        }, 2400);
+
+
+        var html2 = $(".adduser ul").html()
+        $(".adduser ul").append(html2)
+        var ls2 = $(".adduser li").length / 2 + 1
+        a = 0
+        ref = setInterval(function () {
+            a++
+            if (a == ls2) {
+                a = 1
+                $(".adduser ul").css({ marginTop: 0 })
+                $(".adduser ul").animate({ marginTop: -'.5' * a + 'rem' }, 800)
+            }
+            $(".adduser ul").animate({ marginTop: -'.5' * a + 'rem' }, 800)
+
+
+        }, 4300);
+
+
+    })
+</script>
+
+<body>
+    <div class="loading">
+        <div class="loadbox"><img src="../picture/loading.gif" alt=""> 页面加载中...</div>
+    </div>
+    <div class="head">
+        <!-- <h1><img src="../picture/logo1.png"><a href="https://gitee.com/iGaoWei/big-data-view"
+                style="color: white">卒中临床早期康复中心大数据展示</a>
+        </h1> -->
+        <h1><img src="../picture/logo1.png"><a href="index.html" style="color: white">卒中临床早期康复中心大数据展示</a>
+        </h1>
+
+        <!--    <div class="weather"><img src="../picture/weather.png"><span>多云转小雨</span><span>2023-6-30</span></div>-->
+    </div>
+    <header class="header left">
+        <div class="left nav">
+            <ul>
+                <li><i class="nav_1"></i><a href="index.html">采集概况</a> </li>
+                <!-- <li><i class="nav_2"></i><a href="quota.html">指标分析</a> </li>
+                <li><i class="nav_3"></i><a href="trend.html">趋势分析</a> </li> -->
+                <li><i class="nav_3"></i><a href="chronic.html">居家病人列表</a> </li>
+                <li><i class="nav_4"></i><a href="hospitalUsers.html">医院用户列表</a> </li>
+                <li class="nav_active"><i class="nav_5"></i><a href="rehab.html">早康信息</a> </li>
+            </ul>
+        </div>
+        <div class="header_center left" style="position:relative">
+
+            <h2><strong><a href="index.html">卒中临床早期康复中心大数据展示</a></strong></h2>
+
+        </div>
+        <div class="right nav text_right">
+            <ul>
+
+            </ul>
+        </div>
+
+    </header>
+    <div class="mainbox">
+        <ul class="clearfix">
+            <li>
+                <div class="boxall" style="height: 2.7rem">
+                    <div class="alltitle">设备使用人数</div>
+
+                    <div class="sycm">
+                        <ul class="clearfix">
+                            <li>
+                                <h2 id="airTrainCount"></h2><span>手功能训练</span>
+                            </li>
+                            <li>
+                                <h2 id="balanceTrainCount"></h2><span>动态平衡训练</span>
+                            </li>
+                            <li>
+                                <h2 id="limbTrainCount"></h2><span>床旁下肢训练</span>
+                            </li>
+                        </ul>
+                        <div style="border-bottom: 1px solid rgba(255,255,255,.1)"></div>
+                        <ul class="clearfix">
+                            <li>
+                                <h2 id="swallowTrainCount"></h2><span>吞咽训练</span>
+                            </li>
+                            <li>
+                                <h2 id="skullTrainCount"></h2><span>经颅磁治疗</span>
+                            </li>
+                            <li>
+                                <h2 id="electricalTrainCount"></h2><span>电刺激</span>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                    <div class="boxfoot"></div>
+                </div>
+                <div class="boxall" style="height: 2.65rem">
+                    <div class="alltitle">设备使用人数TOP</div>
+                    <div class="sy" id="echarts1"></div>
+                    <div class="sy" id="echarts2"></div>
+                    <div class="sy" id="echarts3"></div>
+                    <div class="boxfoot"></div>
+                </div>
+                <div class="boxall" style="height: 2.95rem">
+                    <div class="alltitle">设备使用次数TOP</div>
+                    <div id="echarts4" style="height: 2.2rem; width: 100%;"></div>
+                    <div class="boxfoot"></div>
+                </div>
+            </li>
+            <li>
+                <div class="bar">
+                    <div class="barbox">
+                        <ul class="clearfix">
+                            <li class="pulll_left " id="allAirTrainOrder"></li>
+                            <li class="pulll_left " id="allBalanceTrainOrder"></li>
+                        </ul>
+                    </div>
+                    <div class="barbox2">
+                        <ul class="clearfix">
+                            <li class="pulll_left">早康介入总人次</li>
+                            <li class="pulll_left">居家康复监测总人次</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="map">
+                    <div class="map1"><img src="../picture/lbx.png"></div>
+                    <div class="map2"><img src="../picture/jt.png"></div>
+                    <div class="map3"><img src="../picture/map.png"></div>
+                    <div class="map4" id="map_1"></div>
+                </div>
+            </li>
+            <li>
+                <div class="boxall" style="height:5.2rem">
+                    <div class="alltitle">新增居家患者信息</div>
+
+
+                    <div class="sycm">
+                        <ul class="clearfix">
+                            <li>
+                                <h2 id="airTrainOrder"></h2><span>手功能患者</span>
+                            </li>
+                            <li>
+                                <h2 id="balanceTrainOrder"></h2><span>动态平衡患者</span>
+                            </li>
+                            <li>
+                                <h2 id="limbTrainOrder"></h2><span>床旁下肢患者</span>
+                            </li>
+                        </ul>
+                        <div style="border-bottom: 1px solid rgba(255,255,255,.1)"></div>
+                        <ul class="clearfix">
+                            <li>
+                                <h2 id="swallowTrainOrder"></h2><span>吞咽治疗患者</span>
+                            </li>
+                            <li>
+                                <h2 id="skullTrainOrder"></h2><span>经颅磁患者</span>
+                            </li>
+                            <li>
+                                <h2 id="electricalTrainOrder"></h2><span>电刺激患者</span>
+                            </li>
+                        </ul>
+
+
+                    </div>
+
+                    <!--                <div class="tabs">-->
+                    <!--                <ul class="clearfix">-->
+                    <!--                        <li><a class="active" href="https://gitee.com/iGaoWei/big-data-view">7天</a></li>-->
+                    <!--                        <li><a href="https://gitee.com/iGaoWei/big-data-view">15天</a></li>-->
+                    <!--                        <li><a href="https://gitee.com/iGaoWei/big-data-view">30天</a></li>-->
+                    <!--                    </ul>-->
+                    <!--                </div>-->
+                    <!--                <div class="clearfix">-->
+                    <!--                    <div class="sy" id="echarts6"></div>-->
+                    <!--                    <div class="sy" id="echarts7"></div>-->
+                    <!--                    <div class="sy" id="echarts8"></div>-->
+                    <!--                </div>-->
+                    <div class="addnew">
+                        <div class="tit02"><span>今日新增订单列表</span></div>
+                        <div class="adduser">
+                            <ul class="clearfix" id="dynamic-list">
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="boxfoot"></div>
+                </div>
+                <div class="boxall" style="height: 3.4rem">
+                    <div class="alltitle">今日早康处方执行情况</div>
+                    <div class="wrap">
+
+
+                        <ul id="train-list">
+
+
+                        </ul>
+
+                    </div>
+                    <div class="boxfoot"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="back"></div>
+    <script language="JavaScript" src="../js/js.js"></script>
+    <script type="text/javascript" src="../js/echarts.min.js"></script>
+    <script type="text/javascript" src="../js/china.js"></script>
+    <script type="text/javascript" src="../js/area_echarts.js"></script>
+    <script type="text/javascript">
+
+
+        // 示例动态数据
+        let dynamicData = [];
+
+        // 示例动态数据
+        let trainData = [];
+
+        let trainData1 = [];
+
+        let urlTrain = 'https://pharos3.ewj100.com/productStockUserCount/getTrainRecord?airTrainMacAdd=40:24:b2:a9:e4:6f&balanceMacAdd=78:f2:35:05:c6:07';
+
+        let trainListElement = document.getElementById("train-list");
+
+        function getUrlTrain() {
+
+
+
+            fetch(urlTrain)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Request failed with status:' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+
+
+
+
+                    trainData = data.data.pneumaticRecordList
+                    trainData1 = data.data.tbUserTrainRecords
+
+
+
+
+
+                    for (let i = 0; i < trainData1.length; i++) {
+
+                        console.log("----进入了")
+                        let listItem = document.createElement("li");
+                        let itemP = document.createElement("p");
+                        itemP.textContent = trainData1[i].userName + "-" + trainData1[i].updateTime + "-负重" + trainData1[i].targetLoad
+                            + "KG-成功" + trainData1[i].successTime + "次" + "-警报" + trainData1[i].warningTime + "次";
+
+                        listItem.appendChild(itemP);
+                        trainListElement.appendChild(listItem);
+                    }
+
+                    // 循环遍历数据并创建列表项
+                    for (let i = 0; i < trainData.length; i++) {
+                        let listItem = document.createElement("li");
+                        let itemP = document.createElement("p");
+                        itemP.textContent = trainData[i].userName + "-" + trainData[i].updateTime + "-" + trainData[i].planName
+                            + "-" + trainData[i].planTimeDone + "分钟";
+
+                        listItem.appendChild(itemP);
+                        trainListElement.appendChild(listItem);
+                    }
+
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+
+
+        getUrlTrain();
+        setInterval(getUrlTrain, 10000);
+
+
+        // 获取<ul>元素
+        let listElement = document.getElementById("dynamic-list");
+
+        let urlDynamic = 'https://pharos3.ewj100.com/productStockUserCount/getPatientUser?airTrainMacAdd=40:24:b2:a9:e4:6f&balanceMacAdd=78:f2:35:05:c6:07';
+
+
+        function getUrlDynamic() {
+            fetch(urlDynamic)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Request failed with status:' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+
+                    dynamicData = data.data
+                    // 循环遍历数据并创建列表项
+                    for (let i = 0; i < dynamicData.length; i++) {
+
+
+                        let listItem = document.createElement("li");
+                        listItem.className = "clearfix";
+                        let itemImage = document.createElement("img");
+                        itemImage.className = "pulll_left";
+                        itemImage.src = "../picture/head.jpg";
+                        let itemText = document.createElement("span");
+                        itemText.className = "pulll_left";
+                        let sex = "男"
+                        if (dynamicData[i].sex === 1) {
+                            sex = "女"
+                        } else {
+                            sex = "男"
+                        }
+                        let addressString = dynamicData[i].address;
+                        let startIndex = 0; // 起始位置
+                        let endIndex = addressString.indexOf("市"); // 指定字符的位置
+                        let subAddress = addressString.substring(startIndex, endIndex + 1);
+                        itemText.textContent = dynamicData[i].name + "-" + sex + "-" + subAddress;
+                        let itemTitle = document.createElement("span");
+                        let patient = "新增手功能患者"
+                        if (dynamicData[i].macAdd === "40:24:b2:a9:e4:6f") {
+                            patient = "新增手功能患者"
+
+                        } else {
+                            patient = "新增平衡患者"
+                        }
+                        itemTitle.className = "pulll_right";
+                        itemTitle.textContent = patient;
+                        itemText.appendChild(itemImage);
+                        listItem.appendChild(itemText);
+                        listItem.appendChild(itemTitle);
+                        listElement.appendChild(listItem);
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+
+        getUrlDynamic();
+
+
+        setInterval(getUrlDynamic, 10000);
+
+
+        $(document).ready(function () {
+            myChart1.resize();
+            myChart2.resize();
+            myChart3.resize();
+            // myChart6.resize();
+            // myChart7.resize();
+            // myChart8.resize();
+        })
+        window.addEventListener("resize", function () {
+            myChart1.resize();
+            myChart2.resize();
+            myChart3.resize();
+            // myChart6.resize();
+            // myChart7.resize();
+            // myChart8.resize();
+        });
+    </script>
+    <script type="text/javascript">
+
+
+        let url = 'https://pharos3.ewj100.com/rehabilitation/get?airTrainMacAdd=40:24:b2:a9:e4:6f&balanceMacAdd=78:f2:35:05:c6:07';
+
+        function getRehabilitation() {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Request failed with status:' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+
+
+                    document.getElementById("airTrainOrder").textContent = data.data.airTrainOrder;
+                    document.getElementById("balanceTrainOrder").textContent = data.data.balanceTrainOrder
+                    document.getElementById("limbTrainOrder").textContent = data.data.limbTrainOrder
+                    document.getElementById("swallowTrainOrder").textContent = data.data.swallowTrainOrder
+                    document.getElementById("skullTrainOrder").textContent = data.data.skullTrainOrder
+                    document.getElementById("electricalTrainOrder").textContent = data.data.electricalTrainOrder
+
+                    document.getElementById("allBalanceTrainOrder").textContent = data.data.airTrainOrder + data.data.balanceTrainOrder +
+                        data.data.limbTrainOrder + data.data.swallowTrainOrder + data.data.skullTrainOrder + data.data.electricalTrainOrder
+                        ;
+
+
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+        getRehabilitation();
+
+
+        setInterval(getRehabilitation, 10000);
+
+
+
+    </script>
+    <script type="text/javascript">
+
+
+
+        let myChart1 = echarts.init(document.getElementById('echarts1'));
+        let myChart2 = echarts.init(document.getElementById('echarts2'));
+        let myChart3 = echarts.init(document.getElementById('echarts3'));
+
+
+        function getTrainCount() {
+
+            var v1count//已监测
+            var v2count //未监测
+            var v3count //总居家
+            var v4count //总居家
+
+
+            let url = 'https://pharos3.ewj100.com/productStockUserCount/get?airTrainMacAdd=40:24:b2:a9:e4:6f&balanceMacAdd=78:f2:35:05:c6:07';
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Request failed with status:' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+
+                    document.getElementById("airTrainCount").textContent = data.data.airTrainCount;
+                    document.getElementById("balanceTrainCount").textContent = data.data.balanceTrainCount
+                    document.getElementById("limbTrainCount").textContent = data.data.limbTrainCount
+                    document.getElementById("swallowTrainCount").textContent = data.data.swallowTrainCount
+                    document.getElementById("skullTrainCount").textContent = data.data.skullTrainCount
+                    document.getElementById("electricalTrainCount").textContent = data.data.electricalTrainCount
+
+
+
+                    document.getElementById("allAirTrainOrder").textContent = data.data.airTrainCount + data.data.balanceTrainCount + data.data.limbTrainCount
+                        + data.data.swallowTrainCount + data.data.skullTrainCount + data.data.electricalTrainCount
+
+                    v1count = data.data.airTrainCount
+                    v2count = data.data.balanceTrainCount
+                    v3count = data.data.limbTrainCount
+
+                    v4count = v1count + v2count + v3count
+
+
+                    let option1 = {
+                        series: [{
+                            type: 'pie',
+                            radius: ['70%', '80%'],
+                            color: '#fccb00',
+                            label: {
+                                normal: {
+                                    position: 'center'
+                                }
+                            },
+                            data: [{
+                                value: v1count,
+                                name: '手功能训练',
+                                label: {
+                                    normal: {
+                                        formatter: v1count + '',
+                                        textStyle: {
+                                            fontSize: 20,
+                                            color: '#fff',
+                                        }
+                                    }
+                                }
+                            }, {
+                                value: v4count,
+                                name: '手功能训练',
+                                label: {
+                                    normal: {
+                                        formatter: function (params) {
+                                            return '占比' + Math.round(v1count / v4count * 100) + '%'
+                                        },
+                                        textStyle: {
+                                            color: '#aaa',
+                                            fontSize: 12
+                                        }
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: 'rgba(255,255,255,.2)'
+                                    },
+                                    emphasis: {
+                                        color: '#fff'
+                                    }
+                                },
+                            }]
+                        }]
+                    };
+                    myChart1.setOption(option1);
+
+
+                    let option2 = {
+
+                        //animation: false,
+                        series: [{
+                            type: 'pie',
+                            radius: ['70%', '80%'],
+                            color: '#fccb00',
+                            label: {
+                                normal: {
+                                    position: 'center'
+                                }
+                            },
+                            data: [{
+                                value: v2count,
+                                name: '动态平衡训练',
+                                label: {
+                                    normal: {
+                                        formatter: v2count + '',
+                                        textStyle: {
+                                            fontSize: 20,
+                                            color: '#fff',
+                                        }
+                                    }
+                                }
+                            }, {
+                                value: v4count,
+                                name: '床旁下肢训练',
+                                label: {
+                                    normal: {
+                                        formatter: function (params) {
+                                            return '占比' + Math.round(v2count / v4count * 100) + '%'
+                                        },
+                                        textStyle: {
+                                            color: '#aaa',
+                                            fontSize: 12
+                                        }
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: 'rgba(255,255,255,.2)'
+                                    },
+                                    emphasis: {
+                                        color: '#fff'
+                                    }
+                                },
+                            }]
+                        }]
+                    };
+
+                    myChart2.setOption(option2);
+
+
+                    let option3 = {
+
+
+                        series: [{
+
+                            type: 'pie',
+                            radius: ['70%', '80%'],
+                            color: '#62b62f',
+                            label: {
+                                normal: {
+                                    position: 'center'
+                                }
+                            },
+                            data: [{
+                                value: v3count,
+                                name: '床旁下肢训练',
+                                label: {
+                                    normal: {
+                                        formatter: v3count + '',
+                                        textStyle: {
+                                            fontSize: 20,
+                                            color: '#fff',
+                                        }
+                                    }
+                                }
+                            }, {
+                                value: v4count,
+                                name: '动态平衡训练',
+                                label: {
+                                    normal: {
+                                        formatter: function (params) {
+                                            return '占比' + Math.round(v3count / v4count * 100) + '%'
+                                        },
+                                        textStyle: {
+                                            color: '#aaa',
+                                            fontSize: 12
+                                        }
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: 'rgba(255,255,255,.2)'
+                                    },
+                                    emphasis: {
+                                        color: '#fff'
+                                    }
+                                },
+                            }]
+                        }]
+                    };
+
+                    myChart3.setOption(option3);
+
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        }
+
+        getTrainCount()
+
+        setInterval(getTrainCount, 10000);
+
+
+    </script>
+    <script type="text/javascript">
+
+
+        let myChart = echarts.init(document.getElementById('echarts4'));
+
+        let url1 = 'https://pharos3.ewj100.com/trainNumber/get?airTrainMacAdd=40:24:b2:a9:e4:6f&balanceMacAdd=78:f2:35:05:c6:07';
+
+
+
+        function getTrainNumber() {
+            fetch(url1)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Request failed with status:' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+
+
+                    var plantCap = [{
+                        name: '气动手功能',
+                        value: data.data.airTrainNumber
+                    }, {
+                        name: '电刺激',
+                        value: data.data.electricalTrainNumber
+                    }, {
+                        name: '床旁下肢',
+                        value: data.data.limbTrainNumber
+
+                    }, {
+                        name: '下肢平衡',
+                        value: data.data.balanceTrainNumber
+                    }, {
+                        name: '吞咽',
+                        value: data.data.swallowTrainNumber
+                    }, {
+                        name: '经颅磁',
+                        value: data.data.skullTrainNumber
+                    }];
+                    var datalist = [{
+                        offset: [56, 48],
+                        symbolSize: 110,
+                        // opacity: .95,
+                        color: 'rgba(73,188,247,.14)',
+
+                    }, {
+
+                        offset: [30, 70],
+                        symbolSize: 70,
+                        color: 'rgba(73,188,247,.14)'
+                    }, {
+                        offset: [0, 43],
+                        symbolSize: 60,
+                        color: 'rgba(73,188,247,.14)'
+
+                    }, {
+                        offset: [93, 30],
+                        symbolSize: 70,
+                        color: 'rgba(73,188,247,.14)'
+                    }, {
+                        offset: [26, 19],
+                        symbolSize: 65,
+                        color: 'rgba(73,188,247,.14)'
+                    }, {
+                        offset: [75, 75],
+                        symbolSize: 60,
+                        color: 'rgba(73,188,247,.14)'
+
+                    }];
+
+                    var datas = [];
+                    for (var i = 0; i < plantCap.length; i++) {
+                        var item = plantCap[i];
+                        var itemToStyle = datalist[i];
+                        datas.push({
+                            name: item.value + '\n' + item.name,
+                            value: itemToStyle.offset,
+                            symbolSize: itemToStyle.symbolSize,
+                            label: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 14
+                                    }
+                                }
+                            },
+
+                            itemStyle: {
+                                normal: {
+                                    color: itemToStyle.color,
+                                    opacity: itemToStyle.opacity
+                                }
+                            },
+                        })
+                    }
+                    option = {
+                        grid: {
+                            show: false,
+                            top: 10,
+                            bottom: 10
+                        },
+
+                        xAxis: [{
+                            gridIndex: 0,
+                            type: 'value',
+                            show: false,
+                            min: 0,
+                            max: 100,
+                            nameLocation: 'middle',
+                            nameGap: 5
+                        }],
+
+                        yAxis: [{
+                            gridIndex: 0,
+                            min: 0,
+                            show: false,
+                            max: 100,
+                            nameLocation: 'middle',
+                            nameGap: 30
+                        }],
+                        series: [{
+                            type: 'scatter',
+                            symbol: 'circle',
+                            symbolSize: 120,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: '{b}',
+                                    color: '#FFF',
+                                    textStyle: {
+                                        fontSize: '30'
+                                    }
+                                },
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: '#F30'
+                                }
+                            },
+                            data: datas
+                        }]
+
+                    };
+
+
+                    myChart.setOption(option);
+
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+
+        getTrainNumber()
+
+        setInterval(getTrainNumber, 10000);
+
+
+        $(document).ready(function () {
+            myChart.resize();
+
+        })
+        window.addEventListener("resize", function () {
+            myChart.resize();
+        });
+
+
+    </script>
+    <!--大屏-->
+    <script type="text/javascript" src="../js/jquery.waypoints.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.countup.min.js"></script>
+    <script type="text/javascript">
+        $('.counter').countUp();
+    </script>
+</body>
+
+</html>
